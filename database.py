@@ -63,6 +63,20 @@ def delete_user(user_id):
         return conn.execute("DELETE FROM users WHERE user_id = ?", (user_id,)).rowcount > 0
 
 
+def patch_user(user_id, changes):
+    # Column names come only from this fixed allowlist; values stay parameterized.
+    fields = [key for key in ("name", "email", "phone", "address", "country") if key in changes]
+    if not fields:
+        raise ValueError("Provide at least one user field")
+    assignments = ", ".join(f"{key} = ?" for key in fields)
+    with connect_to_db() as conn:
+        cur = conn.execute(f"UPDATE users SET {assignments} WHERE user_id = ?",
+                           tuple(changes[key] for key in fields) + (user_id,))
+        if not cur.rowcount:
+            return None
+        return dict(conn.execute("SELECT * FROM users WHERE user_id = ?", (user_id,)).fetchone())
+
+
 if __name__ == "__main__":
     create_db_table()
     print(f"Database ready: {DATABASE}")

@@ -3,7 +3,7 @@ import sqlite3
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from werkzeug.exceptions import HTTPException
-from database import create_db_table, insert_user, get_users, get_user_by_id, update_user, delete_user
+from database import create_db_table, insert_user, get_users, get_user_by_id, update_user, delete_user, patch_user
 
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "*"}})
@@ -72,6 +72,21 @@ def api_delete_user(user_id):
     if delete_user(user_id):
         return jsonify(status="User deleted successfully")
     return jsonify(error="User not found"), 404
+
+
+@app.patch("/api/users/<int:user_id>")
+def api_patch_user(user_id):
+    changes = request.get_json()
+    fields = {"name", "email", "phone", "address", "country"}
+    if not isinstance(changes, dict) or not changes:
+        raise ValueError("Provide a non-empty JSON object")
+    if set(changes) - fields:
+        raise ValueError("Only name, email, phone, address, and country can be patched")
+    for key, value in changes.items():
+        if not isinstance(value, str) or not value.strip():
+            raise ValueError(f"{key} must be a non-empty string")
+    user = patch_user(user_id, {key: value.strip() for key, value in changes.items()})
+    return jsonify(user) if user else (jsonify(error="User not found"), 404)
 
 
 if __name__ == "__main__":

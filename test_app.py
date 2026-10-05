@@ -58,6 +58,23 @@ class UserAPITests(unittest.TestCase):
         database.create_db_table()
         self.assertEqual(len(database.get_users()), 1)
 
+    def test_partial_update_preserves_other_fields(self):
+        created = self.client.post('/api/users/add', json=self.user).json
+        uid = created['user_id']
+        result = self.client.patch(f'/api/users/{uid}', json={'country': 'Lebanon'})
+        self.assertEqual(result.status_code, 200)
+        self.assertEqual(result.json, dict(created, country='Lebanon'))
+        self.assertEqual(database.get_user_by_id(uid), result.json)
+
+    def test_invalid_patch_does_not_change_record(self):
+        created = self.client.post('/api/users/add', json=self.user).json
+        uid = created['user_id']
+        for body in [{}, [], {'user_id': 5}, {'country': ''}, {'name': 'Changed', 'phone': 123}]:
+            with self.subTest(body=body):
+                self.assertEqual(self.client.patch(f'/api/users/{uid}', json=body).status_code, 400)
+                self.assertEqual(database.get_user_by_id(uid), created)
+        self.assertEqual(self.client.patch('/api/users/999', json={'country': 'Lebanon'}).status_code, 404)
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
