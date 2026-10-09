@@ -1,47 +1,15 @@
 {
   "info": {
+    "_postman_id": "f1d3b8e8-115b-424f-a145-e1eeddddd3ca",
     "name": "Flask user app",
+    "description": "Lab 5 user API. Select the 'Flask local' environment (base_url). Run requests in numbered order; the POST request saves the new user's id in the user_id collection variable.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": "Lab 5 CRUD API including PATCH. Create and select an environment with base_url=http://localhost:5000. Run in numbered order. user_id is captured automatically as a collection variable. Examples captured from live local HTTP requests."
+    "_exporter_id": "58827632",
+    "_collection_link": "https://go.postman.co/collection/58827632-f1d3b8e8-115b-424f-a145-e1eeddddd3ca?source=collection_link"
   },
-  "variable": [
-    {
-      "key": "user_id",
-      "value": ""
-    }
-  ],
   "item": [
     {
       "name": "01 Add user",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "url": {
-          "raw": "{{base_url}}/api/users/add",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "api",
-            "users",
-            "add"
-          ]
-        },
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"phone\": \"067765434567\",\n  \"address\": \"John Doe Street, Innsbruck\",\n  \"country\": \"Austria\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        }
-      },
       "event": [
         {
           "listen": "test",
@@ -56,9 +24,38 @@
           }
         }
       ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"phone\": \"067765434567\",\n  \"address\": \"John Doe Street, Innsbruck\",\n  \"country\": \"Austria\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/users/add",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "users",
+            "add"
+          ]
+        }
+      },
       "response": [
         {
-          "name": "01 Add user example",
+          "name": "01 Add user",
           "originalRequest": {
             "method": "POST",
             "header": [
@@ -67,6 +64,15 @@
                 "value": "application/json"
               }
             ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"phone\": \"067765434567\",\n  \"address\": \"John Doe Street, Innsbruck\",\n  \"country\": \"Austria\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
               "raw": "{{base_url}}/api/users/add",
               "host": [
@@ -77,33 +83,57 @@
                 "users",
                 "add"
               ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"phone\": \"067765434567\",\n  \"address\": \"John Doe Street, Innsbruck\",\n  \"country\": \"Austria\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
             }
           },
-          "status": "Created",
+          "status": "CREATED",
           "code": 201,
           "_postman_previewlanguage": "json",
           "header": [
             {
-              "key": "Content-Type",
+              "key": "server",
+              "value": "Werkzeug/3.1.9 Python/3.10.5"
+            },
+            {
+              "key": "date",
+              "value": "Fri, 09 Oct 2026 10:34:09 GMT"
+            },
+            {
+              "key": "content-type",
               "value": "application/json"
+            },
+            {
+              "key": "content-length",
+              "value": "141"
+            },
+            {
+              "key": "access-control-allow-origin",
+              "value": "*"
+            },
+            {
+              "key": "connection",
+              "value": "close"
             }
           ],
           "cookie": [],
-          "body": "{\n  \"address\": \"John Doe Street, Innsbruck\",\n  \"country\": \"Austria\",\n  \"email\": \"john@example.com\",\n  \"name\": \"John Doe\",\n  \"phone\": \"067765434567\",\n  \"user_id\": 1\n}"
+          "body": "{\n  \"address\": \"John Doe Street, Innsbruck\",\n  \"country\": \"Austria\",\n  \"email\": \"john@example.com\",\n  \"name\": \"John Doe\",\n  \"phone\": \"067765434567\",\n  \"user_id\": 3\n}"
         }
       ]
     },
     {
       "name": "02 Get all users",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status 200\", function () { pm.response.to.have.status(200); });",
+              "pm.test(\"JSON response\", function () { pm.response.to.be.json; });",
+              "pm.test(\"Created user is listed\", function () { pm.expect(pm.response.json().some(u => u.user_id === Number(pm.collectionVariables.get(\"user_id\")))).to.eql(true); });"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "GET",
         "header": [],
@@ -118,22 +148,9 @@
           ]
         }
       },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Expected status 200\", function () { pm.response.to.have.status(200); });",
-              "pm.test(\"JSON response\", function () { pm.response.to.be.json; });",
-              "pm.test(\"Created user is listed\", function () { pm.expect(pm.response.json().some(u => u.user_id === Number(pm.collectionVariables.get(\"user_id\")))).to.eql(true); });"
-            ]
-          }
-        }
-      ],
       "response": [
         {
-          "name": "02 Get all users example",
+          "name": "02 Get all users",
           "originalRequest": {
             "method": "GET",
             "header": [],
@@ -153,32 +170,37 @@
           "_postman_previewlanguage": "json",
           "header": [
             {
-              "key": "Content-Type",
+              "key": "server",
+              "value": "Werkzeug/3.1.9 Python/3.10.5"
+            },
+            {
+              "key": "date",
+              "value": "Fri, 09 Oct 2026 12:24:43 GMT"
+            },
+            {
+              "key": "content-type",
               "value": "application/json"
+            },
+            {
+              "key": "content-length",
+              "value": "143"
+            },
+            {
+              "key": "access-control-allow-origin",
+              "value": "*"
+            },
+            {
+              "key": "connection",
+              "value": "close"
             }
           ],
           "cookie": [],
-          "body": "[\n  {\n    \"address\": \"John Doe Street, Innsbruck\",\n    \"country\": \"Austria\",\n    \"email\": \"john@example.com\",\n    \"name\": \"John Doe\",\n    \"phone\": \"067765434567\",\n    \"user_id\": 1\n  }\n]"
+          "body": "[\n  {\n    \"address\": \"John Doe Street, Innsbruck\",\n    \"country\": \"Austria\",\n    \"email\": \"john@example.com\",\n    \"name\": \"John Doe\",\n    \"phone\": \"067765434567\",\n    \"user_id\": 3\n  }\n]"
         }
       ]
     },
     {
       "name": "03 Get one user",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{base_url}}/api/users/{{user_id}}",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "api",
-            "users",
-            "{{user_id}}"
-          ]
-        }
-      },
       "event": [
         {
           "listen": "test",
@@ -192,221 +214,6 @@
           }
         }
       ],
-      "response": [
-        {
-          "name": "03 Get one user example",
-          "originalRequest": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/api/users/{{user_id}}",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "users",
-                "{{user_id}}"
-              ]
-            }
-          },
-          "status": "OK",
-          "code": 200,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "cookie": [],
-          "body": "{\n  \"address\": \"John Doe Street, Innsbruck\",\n  \"country\": \"Austria\",\n  \"email\": \"john@example.com\",\n  \"name\": \"John Doe\",\n  \"phone\": \"067765434567\",\n  \"user_id\": 1\n}"
-        }
-      ]
-    },
-    {
-      "name": "04 Update user",
-      "request": {
-        "method": "PUT",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "url": {
-          "raw": "{{base_url}}/api/users/update",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "api",
-            "users",
-            "update"
-          ]
-        },
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"name\": \"Jane Doe\",\n  \"email\": \"john@example.com\",\n  \"phone\": \"067765434567\",\n  \"address\": \"John Doe Street, Innsbruck\",\n  \"country\": \"Austria\",\n  \"user_id\": {{user_id}}\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        }
-      },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Expected status 200\", function () { pm.response.to.have.status(200); });",
-              "pm.test(\"JSON response\", function () { pm.response.to.be.json; });",
-              "pm.test(\"Correct name\", function () { pm.expect(pm.response.json().name).to.eql(\"Jane Doe\"); });"
-            ]
-          }
-        }
-      ],
-      "response": [
-        {
-          "name": "04 Update user example",
-          "originalRequest": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/api/users/update",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "users",
-                "update"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"name\": \"Jane Doe\",\n  \"email\": \"john@example.com\",\n  \"phone\": \"067765434567\",\n  \"address\": \"John Doe Street, Innsbruck\",\n  \"country\": \"Austria\",\n  \"user_id\": {{user_id}}\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "status": "OK",
-          "code": 200,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "cookie": [],
-          "body": "{\n  \"address\": \"John Doe Street, Innsbruck\",\n  \"country\": \"Austria\",\n  \"email\": \"john@example.com\",\n  \"name\": \"Jane Doe\",\n  \"phone\": \"067765434567\",\n  \"user_id\": 1\n}"
-        }
-      ]
-    },
-    {
-      "name": "05 Patch country",
-      "request": {
-        "method": "PATCH",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "url": {
-          "raw": "{{base_url}}/api/users/{{user_id}}",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "api",
-            "users",
-            "{{user_id}}"
-          ]
-        },
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"country\": \"Lebanon\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        }
-      },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Expected status 200\", function () { pm.response.to.have.status(200); });",
-              "pm.test(\"JSON response\", function () { pm.response.to.be.json; });",
-              "pm.test(\"Correct name\", function () { pm.expect(pm.response.json().name).to.eql(\"Jane Doe\"); });",
-              "pm.test(\"Country patched\", function () { pm.expect(pm.response.json().country).to.eql(\"Lebanon\"); });"
-            ]
-          }
-        }
-      ],
-      "response": [
-        {
-          "name": "05 Patch country example",
-          "originalRequest": {
-            "method": "PATCH",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/api/users/{{user_id}}",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "users",
-                "{{user_id}}"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"country\": \"Lebanon\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "status": "OK",
-          "code": 200,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "cookie": [],
-          "body": "{\n  \"address\": \"John Doe Street, Innsbruck\",\n  \"country\": \"Lebanon\",\n  \"email\": \"john@example.com\",\n  \"name\": \"Jane Doe\",\n  \"phone\": \"067765434567\",\n  \"user_id\": 1\n}"
-        }
-      ]
-    },
-    {
-      "name": "06 Verify partial update",
       "request": {
         "method": "GET",
         "header": [],
@@ -422,23 +229,9 @@
           ]
         }
       },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Expected status 200\", function () { pm.response.to.have.status(200); });",
-              "pm.test(\"JSON response\", function () { pm.response.to.be.json; });",
-              "pm.test(\"Correct name\", function () { pm.expect(pm.response.json().name).to.eql(\"Jane Doe\"); });",
-              "pm.test(\"Country patched\", function () { pm.expect(pm.response.json().country).to.eql(\"Lebanon\"); });"
-            ]
-          }
-        }
-      ],
       "response": [
         {
-          "name": "06 Verify partial update example",
+          "name": "03 Get one user",
           "originalRequest": {
             "method": "GET",
             "header": [],
@@ -459,17 +252,354 @@
           "_postman_previewlanguage": "json",
           "header": [
             {
-              "key": "Content-Type",
+              "key": "server",
+              "value": "Werkzeug/3.1.9 Python/3.10.5"
+            },
+            {
+              "key": "date",
+              "value": "Fri, 09 Oct 2026 12:28:13 GMT"
+            },
+            {
+              "key": "content-type",
               "value": "application/json"
+            },
+            {
+              "key": "content-length",
+              "value": "141"
+            },
+            {
+              "key": "access-control-allow-origin",
+              "value": "*"
+            },
+            {
+              "key": "connection",
+              "value": "close"
             }
           ],
           "cookie": [],
-          "body": "{\n  \"address\": \"John Doe Street, Innsbruck\",\n  \"country\": \"Lebanon\",\n  \"email\": \"john@example.com\",\n  \"name\": \"Jane Doe\",\n  \"phone\": \"067765434567\",\n  \"user_id\": 1\n}"
+          "body": "{\n  \"address\": \"John Doe Street, Innsbruck\",\n  \"country\": \"Austria\",\n  \"email\": \"john@example.com\",\n  \"name\": \"John Doe\",\n  \"phone\": \"067765434567\",\n  \"user_id\": 3\n}"
+        }
+      ]
+    },
+    {
+      "name": "04 Update user",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status 200\", function () { pm.response.to.have.status(200); });",
+              "pm.test(\"JSON response\", function () { pm.response.to.be.json; });",
+              "pm.test(\"Correct name\", function () { pm.expect(pm.response.json().name).to.eql(\"Jane Doe\"); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Jane Doe\",\n  \"email\": \"john@example.com\",\n  \"phone\": \"067765434567\",\n  \"address\": \"John Doe Street, Innsbruck\",\n  \"country\": \"Austria\",\n  \"user_id\": {{user_id}}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/users/update",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "users",
+            "update"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "04 Update user",
+          "originalRequest": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Jane Doe\",\n  \"email\": \"john@example.com\",\n  \"phone\": \"067765434567\",\n  \"address\": \"John Doe Street, Innsbruck\",\n  \"country\": \"Austria\",\n  \"user_id\": {{user_id}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/users/update",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "update"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "server",
+              "value": "Werkzeug/3.1.9 Python/3.10.5"
+            },
+            {
+              "key": "date",
+              "value": "Fri, 09 Oct 2026 12:28:31 GMT"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json"
+            },
+            {
+              "key": "content-length",
+              "value": "141"
+            },
+            {
+              "key": "access-control-allow-origin",
+              "value": "*"
+            },
+            {
+              "key": "connection",
+              "value": "close"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"address\": \"John Doe Street, Innsbruck\",\n  \"country\": \"Austria\",\n  \"email\": \"john@example.com\",\n  \"name\": \"Jane Doe\",\n  \"phone\": \"067765434567\",\n  \"user_id\": 3\n}"
+        }
+      ]
+    },
+    {
+      "name": "05 Patch country",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status 200\", function () { pm.response.to.have.status(200); });",
+              "pm.test(\"JSON response\", function () { pm.response.to.be.json; });",
+              "pm.test(\"Correct name\", function () { pm.expect(pm.response.json().name).to.eql(\"Jane Doe\"); });",
+              "pm.test(\"Country patched\", function () { pm.expect(pm.response.json().country).to.eql(\"Lebanon\"); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"country\": \"Lebanon\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/users/{{user_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "users",
+            "{{user_id}}"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "05 Patch country",
+          "originalRequest": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"country\": \"Lebanon\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/users/{{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "{{user_id}}"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "server",
+              "value": "Werkzeug/3.1.9 Python/3.10.5"
+            },
+            {
+              "key": "date",
+              "value": "Fri, 09 Oct 2026 12:29:09 GMT"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json"
+            },
+            {
+              "key": "content-length",
+              "value": "141"
+            },
+            {
+              "key": "access-control-allow-origin",
+              "value": "*"
+            },
+            {
+              "key": "connection",
+              "value": "close"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"address\": \"John Doe Street, Innsbruck\",\n  \"country\": \"Lebanon\",\n  \"email\": \"john@example.com\",\n  \"name\": \"Jane Doe\",\n  \"phone\": \"067765434567\",\n  \"user_id\": 3\n}"
+        }
+      ]
+    },
+    {
+      "name": "06 Verify partial update",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status 200\", function () { pm.response.to.have.status(200); });",
+              "pm.test(\"JSON response\", function () { pm.response.to.be.json; });",
+              "pm.test(\"Correct name\", function () { pm.expect(pm.response.json().name).to.eql(\"Jane Doe\"); });",
+              "pm.test(\"Country patched\", function () { pm.expect(pm.response.json().country).to.eql(\"Lebanon\"); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/users/{{user_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "users",
+            "{{user_id}}"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "06 Verify partial update",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/users/{{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "{{user_id}}"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "server",
+              "value": "Werkzeug/3.1.9 Python/3.10.5"
+            },
+            {
+              "key": "date",
+              "value": "Fri, 09 Oct 2026 12:29:18 GMT"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json"
+            },
+            {
+              "key": "content-length",
+              "value": "141"
+            },
+            {
+              "key": "access-control-allow-origin",
+              "value": "*"
+            },
+            {
+              "key": "connection",
+              "value": "close"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"address\": \"John Doe Street, Innsbruck\",\n  \"country\": \"Lebanon\",\n  \"email\": \"john@example.com\",\n  \"name\": \"Jane Doe\",\n  \"phone\": \"067765434567\",\n  \"user_id\": 3\n}"
         }
       ]
     },
     {
       "name": "07 Delete user",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status 200\", function () { pm.response.to.have.status(200); });",
+              "pm.test(\"JSON response\", function () { pm.response.to.be.json; });",
+              "pm.test(\"Deletion confirmed\", function () { pm.expect(pm.response.json().status).to.eql(\"User deleted successfully\"); });"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "DELETE",
         "header": [],
@@ -486,22 +616,9 @@
           ]
         }
       },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Expected status 200\", function () { pm.response.to.have.status(200); });",
-              "pm.test(\"JSON response\", function () { pm.response.to.be.json; });",
-              "pm.test(\"Deletion confirmed\", function () { pm.expect(pm.response.json().status).to.eql(\"User deleted successfully\"); });"
-            ]
-          }
-        }
-      ],
       "response": [
         {
-          "name": "07 Delete user example",
+          "name": "07 Delete user",
           "originalRequest": {
             "method": "DELETE",
             "header": [],
@@ -523,8 +640,28 @@
           "_postman_previewlanguage": "json",
           "header": [
             {
-              "key": "Content-Type",
+              "key": "server",
+              "value": "Werkzeug/3.1.9 Python/3.10.5"
+            },
+            {
+              "key": "date",
+              "value": "Fri, 09 Oct 2026 12:29:39 GMT"
+            },
+            {
+              "key": "content-type",
               "value": "application/json"
+            },
+            {
+              "key": "content-length",
+              "value": "39"
+            },
+            {
+              "key": "access-control-allow-origin",
+              "value": "*"
+            },
+            {
+              "key": "connection",
+              "value": "close"
             }
           ],
           "cookie": [],
@@ -534,6 +671,19 @@
     },
     {
       "name": "08 Verify deletion",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status 404\", function () { pm.response.to.have.status(404); });",
+              "pm.test(\"JSON response\", function () { pm.response.to.be.json; });",
+              "pm.test(\"User is absent\", function () { pm.expect(pm.response.json().error).to.eql(\"User not found\"); });"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "GET",
         "header": [],
@@ -549,22 +699,9 @@
           ]
         }
       },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Expected status 404\", function () { pm.response.to.have.status(404); });",
-              "pm.test(\"JSON response\", function () { pm.response.to.be.json; });",
-              "pm.test(\"User is absent\", function () { pm.expect(pm.response.json().error).to.eql(\"User not found\"); });"
-            ]
-          }
-        }
-      ],
       "response": [
         {
-          "name": "08 Verify deletion example",
+          "name": "08 Verify deletion",
           "originalRequest": {
             "method": "GET",
             "header": [],
@@ -580,19 +717,45 @@
               ]
             }
           },
-          "status": "Not Found",
+          "status": "NOT FOUND",
           "code": 404,
           "_postman_previewlanguage": "json",
           "header": [
             {
-              "key": "Content-Type",
+              "key": "server",
+              "value": "Werkzeug/3.1.9 Python/3.10.5"
+            },
+            {
+              "key": "date",
+              "value": "Fri, 09 Oct 2026 12:30:12 GMT"
+            },
+            {
+              "key": "content-type",
               "value": "application/json"
+            },
+            {
+              "key": "content-length",
+              "value": "27"
+            },
+            {
+              "key": "access-control-allow-origin",
+              "value": "*"
+            },
+            {
+              "key": "connection",
+              "value": "close"
             }
           ],
           "cookie": [],
           "body": "{\n  \"error\": \"User not found\"\n}"
         }
       ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "user_id",
+      "value": ""
     }
   ]
 }

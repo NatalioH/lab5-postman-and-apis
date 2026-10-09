@@ -1,6 +1,6 @@
 """Run with python app.py; local lab server on port 5000."""
 import sqlite3
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, redirect
 from flask_cors import CORS
 from werkzeug.exceptions import HTTPException
 from database import create_db_table, insert_user, get_users, get_user_by_id, update_user, delete_user, patch_user
@@ -44,6 +44,9 @@ def database_error(error):
     app.logger.exception("Database operation failed")
     return jsonify(error="Database operation failed"), 500
 
+@app.get("/")
+def home():
+    return redirect("/api/users")
 
 @app.get("/api/users")
 def api_get_users():
