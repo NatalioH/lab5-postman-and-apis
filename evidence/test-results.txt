@@ -1,0 +1,45 @@
+====================================================== test session starts ======================================================
+platform win32 -- Python 3.10.5, pytest-9.1.1, pluggy-1.7.0 -- C:\Users\User\Documents\Codex\2026-10-26\prepare-the-submission\work\lab7-env\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\User\Documents\Codex\2026-10-26\prepare-the-submission\outputs\Lab7-Natalio-Hassoun
+configfile: pytest.ini
+testpaths: .
+collecting ... collected 32 items
+
+test_app.py::UserAPITests::test_crud_and_persistence PASSED                                                                [  3%]
+test_app.py::UserAPITests::test_invalid_patch_does_not_change_record 
+test_app.py::UserAPITests::test_invalid_patch_does_not_change_record PASSED                                                [  6%]
+test_app.py::UserAPITests::test_invalid_payloads 
+test_app.py::UserAPITests::test_invalid_payloads PASSED                                                                    [  9%]
+test_app.py::UserAPITests::test_missing_users PASSED                                                                       [ 12%]
+test_app.py::UserAPITests::test_parameterized_sql PASSED                                                                   [ 15%]
+test_app.py::UserAPITests::test_partial_update_preserves_other_fields PASSED                                               [ 18%]
+test_app.py::UserAPITests::test_repeated_initialization PASSED                                                             [ 21%]
+test_user_Natalio_Hassoun.py::test_database_created_with_initial_users_on_first_app_run PASSED                             [ 25%]
+test_user_Natalio_Hassoun.py::test_app_restart_preserves_users_without_duplicate_seeds PASSED                              [ 28%]
+test_user_Natalio_Hassoun.py::test_insert_user PASSED                                                                      [ 31%]
+test_user_Natalio_Hassoun.py::test_get_users_returns_all_users_in_id_order PASSED                                          [ 34%]
+test_user_Natalio_Hassoun.py::test_get_users_returns_empty_list_for_empty_database PASSED                                  [ 37%]
+test_user_Natalio_Hassoun.py::test_get_users_by_id PASSED                                                                  [ 40%]
+test_user_Natalio_Hassoun.py::test_get_users_by_id_returns_none_for_missing_user PASSED                                    [ 43%]
+test_user_Natalio_Hassoun.py::test_update_user PASSED                                                                      [ 46%]
+test_user_Natalio_Hassoun.py::test_update_missing_user_does_not_insert PASSED                                              [ 50%]
+test_user_Natalio_Hassoun.py::test_delete_user_removes_only_requested_record PASSED                                        [ 53%]
+test_user_Natalio_Hassoun.py::test_delete_missing_user_returns_false PASSED                                                [ 56%]
+test_user_Natalio_Hassoun.py::test_api_get_users PASSED                                                                    [ 59%]
+test_user_Natalio_Hassoun.py::test_api_get_user PASSED                                                                     [ 62%]
+test_user_Natalio_Hassoun.py::test_api_get_missing_user PASSED                                                             [ 65%]
+test_user_Natalio_Hassoun.py::test_api_add_user PASSED                                                                     [ 68%]
+test_user_Natalio_Hassoun.py::test_api_add_invalid_user[invalid_body0] PASSED                                              [ 71%]
+test_user_Natalio_Hassoun.py::test_api_add_invalid_user[invalid_body1] PASSED                                              [ 75%]
+test_user_Natalio_Hassoun.py::test_api_add_invalid_user[invalid_body2] PASSED                                              [ 78%]
+test_user_Natalio_Hassoun.py::test_api_update_user PASSED                                                                  [ 81%]
+test_user_Natalio_Hassoun.py::test_api_update_missing_user PASSED                                                          [ 84%]
+test_user_Natalio_Hassoun.py::test_api_update_invalid_id_preserves_record[True] PASSED                                     [ 87%]
+test_user_Natalio_Hassoun.py::test_api_update_invalid_id_preserves_record[-1] PASSED                                       [ 90%]
+test_user_Natalio_Hassoun.py::test_api_update_invalid_id_preserves_record[1] PASSED                                        [ 93%]
+test_user_Natalio_Hassoun.py::test_api_delete_user PASSED                                                                  [ 96%]
+test_user_Natalio_Hassoun.py::test_api_delete_missing_user PASSED                                                          [100%]
+
+- generated xml file: C:\Users\User\Documents\Codex\2026-10-26\prepare-the-submission\outputs\Lab7-Natalio-Hassoun\evidence\test-results.xml -
+============================================= 32 passed, 9 subtests passed in 4.39s =============================================

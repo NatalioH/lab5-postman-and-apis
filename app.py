@@ -3,11 +3,11 @@ import sqlite3
 from flask import Flask, jsonify, request, redirect
 from flask_cors import CORS
 from werkzeug.exceptions import HTTPException
-from database import create_db_table, insert_user, get_users, get_user_by_id, update_user, delete_user, patch_user
+from database import INITIAL_USERS, create_db_table, insert_user, get_users, get_user_by_id, update_user, delete_user, patch_user
 
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "*"}})
-create_db_table()
+create_db_table(INITIAL_USERS)
 
 
 def validated_user(update=False):
